@@ -18,7 +18,7 @@ module TestDockerRails
     # Since we're using Redis for Sidekiq, we might as well use Redis to back
     # our cache store. This keeps our application stateless as well.
     config.cache_store = :redis_store, ENV['CACHE_URL'],
-                         { namespace: 'drkiq::cache' }
+                         { namespace: 'test-docker-rails::cache' }
 
     # If you've never dealt with background workers before, this is the Rails
     # way to use them through Active Job. We just need to tell it to use Sidekiq.

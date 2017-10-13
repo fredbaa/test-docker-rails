@@ -1,11 +1,12 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  database: <%= ENV['DB_NAME'] %>
+  username: <%= ENV['DB_USER'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
+  host: <%= ENV['DB_HOST'] %>
 development:
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_development?') %>
-
+  <<: *default
 test:
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_test?') %>
-
-staging:
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_staging?') %>
-
-production:
-  url: <%= ENV['DATABASE_URL'].gsub('?', '_production?') %>
+  <<: *default

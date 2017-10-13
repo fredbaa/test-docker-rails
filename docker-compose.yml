@@ -1,0 +1,42 @@
+mysql:
+  image: mysql:5.7
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_USER: appuser
+    MYSQL_PASSWORD: password
+  ports:
+    - "3399:3306"
+
+redis:
+  image: redis:3.0.5
+  ports:
+    - '6379:6379'
+
+app:
+  build: .
+  links:
+    - mysql
+    - redis
+  volumes:
+    - .:/test-docker-rails
+  ports:
+    - '8000:8000'
+  env_file:
+    - .test-docker-rails.env
+  environment:
+    DB_USER: root
+    DB_NAME: test-docker-rails
+    DB_PASSWORD: password
+    DB_HOST: mysql
+
+sidekiq:
+  build: .
+  command: bundle exec sidekiq -C config/sidekiq.yml
+  links:
+    - mysql
+    - redis
+  volumes:
+    - .:/test-docker-rails
+  env_file:
+    - .test-docker-rails.env
